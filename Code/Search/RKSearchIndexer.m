@@ -91,6 +91,7 @@ NSString * const RKSearchableAttributeNamesUserInfoKey = @"RestKitSearchableAttr
     NSRelationshipDescription *inverseRelationship = [[NSRelationshipDescription alloc] init];
     [inverseRelationship setName:entity.name];
     [inverseRelationship setDestinationEntity:entity];
+    [inverseRelationship setMaxCount:1]; //Make it to-one
     [inverseRelationship setDeleteRule:NSNullifyDeleteRule];
     NSArray *searchWordProperties = [searchWordEntity properties];
     [searchWordEntity setProperties:[searchWordProperties arrayByAddingObject:inverseRelationship]];
