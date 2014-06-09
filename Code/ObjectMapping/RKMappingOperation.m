@@ -834,6 +834,12 @@ static NSString * const RKRootKeyPathPrefix = @"@root.";
             if ([self.objectMapping setNilForMissingRelationships] && [self shouldSetValue:&nilReference forKeyPath:relationshipMapping.destinationKeyPath usingMapping:relationshipMapping]) {
                 RKLogTrace(@"Setting nil for missing relationship value at keyPath '%@'", relationshipMapping.sourceKeyPath);
                 [self.destinationObject setValue:nil forKeyPath:relationshipMapping.destinationKeyPath];
+                
+                // Notify the delegate
+                if ([self.delegate respondsToSelector:@selector(mappingOperation:didSetValue:forKeyPath:usingMapping:)]) {
+                    id setValue = [self.destinationObject valueForKeyPath:relationshipMapping.destinationKeyPath];
+                    [self.delegate mappingOperation:self didSetValue:setValue forKeyPath:relationshipMapping.destinationKeyPath usingMapping:relationshipMapping];
+                }
             }
 
             continue;
